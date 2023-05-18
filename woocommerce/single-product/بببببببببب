@@ -1,0 +1,49 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+if ( $related_products ) : ?>
+
+	<section class="related products">
+
+		<?php
+		$heading = apply_filters( 'woocommerce_product_related_products_heading', __( 'Related products', 'woocommerce' ) );
+
+		if ( $heading ) :
+			?>
+			<h2><?php echo esc_html( $heading ); ?></h2>
+		<?php endif; ?>
+		
+		<?php woocommerce_product_loop_start(); ?>
+
+			<div class="swiper myswiper myswiperLoading">
+			<div class="swiper-wrapper swiper-loading">
+
+			<?php foreach ( $related_products as $related_product ) : ?>
+				<?php
+					$post_object = get_post( $related_product->get_id() );
+					setup_postdata( $GLOBALS['post'] =& $post_object );
+					wc_get_template_part( 'content', 'product' );
+				?>
+					
+				<div class="swiper-slide">
+				<a href="'.get_permalink($id).'">
+				$html .= $product->get_image(array(200,200));
+				</a>
+				<div class="p_tite"><a href="'.get_permalink($id).'">'.$this->custom_title($product).'</a></div>
+				<div class="slider-bottom" style="left:1%;">'.$product->get_price_html().'</div>
+				</div>
+			<?php endforeach; ?>
+
+			</div>
+			<div class="swiper-scrollbar"></div>
+			</div>
+
+		<?php woocommerce_product_loop_end(); ?>
+
+	</section>
+	<?php
+endif;
+
+wp_reset_postdata();
